@@ -38,7 +38,36 @@ bool is_adjacent(const string& word1, const string& word2) {
 }
 
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
+    vector<string> result;
+    queue<stack<string>> ladder_queue;
+    stack<string> partial_stack;
+    partial_stack.push(begin_word);
+    ladder_queue.push(partial_stack);
+    set<string> visited;
+    visited.insert(begin_word);
 
+    while (!ladder_queue.empty()) {
+        stack<string> ladder = ladder_queue.front();
+        ladder_queue.pop(); // -- the ladder queue
+        string last_word = ladder.top();
+        
+        for (string word : word_list) {
+            if (is_adjacent(last_word, word) && visited.find(word) == visited.end()) {
+                visited.insert(word);
+                stack<string> new_ladder = ladder;
+                new_ladder.push(word);
+                if (word == end_word) {
+                    while(!new_ladder.empty()) {
+                        result.push_back(new_ladder.top());
+                        new_ladder.pop();
+                    }
+                    return result;
+                }
+                ladder_queue.push(new_ladder);
+            }
+        }
+    }
+    return {};
 }
 
 void load_words(set<string> & word_list, const string& file_name) {
