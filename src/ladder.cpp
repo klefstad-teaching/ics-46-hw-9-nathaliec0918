@@ -17,15 +17,19 @@ void error(string word1, string word2, string msg) {
 // ensure str1 and str2 only have one char different
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
     int num_char_diff = 0;
-    // if (str1.length() != str2.length() ) {
-    //     error(str1, str2, "length of two words are different.");
-    //     return false;
-    // }
-    for (size_t i = 0; i < str1.length(); ++i) {
+    if (abs( static_cast<int>(str1.length()) - static_cast<int>(str2.length()) ) > 1) {
+        error(str1, str2, "length of two words difference is greater than 1.");
+        return false;
+    }
+
+    int smaller = str1.length() < str2.length() ? str1.length() : str2.length();
+    if (str1.length() != str2.length()) num_char_diff++;
+
+    for (size_t i = 0; i < smaller; ++i) {
         if (str1[i] != str2[i]) num_char_diff++;
         if (num_char_diff > d) return false;
     }
-    return true; // num_char_diff <= d
+    return num_char_diff <= d; // num_char_diff <= d, or just return true
 }
 
 // call edit_distance_within and make sure it's true
