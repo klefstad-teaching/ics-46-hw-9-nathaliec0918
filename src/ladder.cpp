@@ -1,19 +1,21 @@
-#include <iostream>
-#include <fstream>
-#include <queue>
-#include <set>
-#include <map>
-#include <vector>
-#include <string>
-#include <cmath>
+// #include <iostream>
+// #include <fstream>
+// #include <queue>
+// #include <set>
+// #include <map>
+// #include <vector>
+// #include <string>
+// #include <cmath>
+#include "ladder.h"
 
 using namespace std;
 
 void error(string word1, string word2, string msg) {
-
+    cout << "with error for: " << word1 << " and " << word2 << endl;
 }
-bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
 
+bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
+    
 }
 bool is_adjacent(const string& word1, const string& word2) {
 
@@ -21,12 +23,20 @@ bool is_adjacent(const string& word1, const string& word2) {
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
 
 }
-void load_words(set<string> & word_list, const string& file_name) {
 
+void load_words(set<string> & word_list, const string& file_name) {
+    ifstream in(file_name);
+    string word;
+    while (in >> word) {
+        transform(word.begin(), word.end(), word.begin, ::tolower);
+        word_list.insert(word);
+    }
+    in.close();
 }
+
 void print_word_ladder(const vector<string>& ladder) {
 
 }
 void verify_word_ladder() {
-    
+
 }
