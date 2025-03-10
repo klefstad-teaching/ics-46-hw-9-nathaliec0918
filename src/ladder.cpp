@@ -6,7 +6,9 @@
 // #include <vector>
 // #include <string>
 // #include <cmath>
+#include <stack>
 #include "ladder.h"
+#define my_assert(e) {cout << #e << ((e) ? " passed": " failed") << endl;}
 
 using namespace std;
 
@@ -18,7 +20,7 @@ void error(string word1, string word2, string msg) {
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
     int num_char_diff = 0;
     if (abs( static_cast<int>(str1.length()) - static_cast<int>(str2.length()) ) > 1) {
-        error(str1, str2, "length of two words difference is greater than 1.");
+        // error(str1, str2, "length of two words difference is greater than 1.");
         return false;
     }
 
@@ -87,5 +89,19 @@ void print_word_ladder(const vector<string>& ladder) {
 }
 
 void verify_word_ladder() {
-
+    set<string> word_list;
+    load_words(word_list, "src/words.txt");
+    // my_assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
+    // my_assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
+    // my_assert(generate_word_ladder("code", "data", word_list).size() == 6);
+    vector<string> one = generate_word_ladder("work", "play", word_list);
+    // int two = generate_word_ladder("sleep", "awake", word_list);
+    // int three = generate_word_ladder("car", "cheat", word_list);
+    print_word_ladder(one);
+    my_assert(one.size() == 6);
+    // my_assert(two.size() == 8);
+    // my_assert(three.size() == 4);
+    // my_assert(generate_word_ladder("work", "play", word_list).size() == 6);
+    // my_assert(generate_word_ladder("sleep", "awake", word_list).size() == 8);
+    // my_assert(generate_word_ladder("car", "cheat", word_list).size() == 4);
 }
