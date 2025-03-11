@@ -50,10 +50,48 @@ bool is_adjacent(const string& word1, const string& word2) {
 
 set<string> get_neighbor_word_list(const string& begin_word, const set<string>& word_list) {
     set<string> result = {};
-    for (const string& potential : word_list) {
-        if (is_adjacent(begin_word, potential)) 
-            result.insert(potential);
+    // for (const string& word : word_list) {
+    //     if (is_adjacent(begin_word, word)) {
+    //         for (const string& potential : word_list) {
+    //             if (is_adjacent(word, potential))
+    //                 result.insert(potential);
+    //         }
+    //     }
+    // }
+    // edit
+    string potential = begin_word;
+    for (size_t i = 0; i < begin_word.size(); ++i) {
+        potential = begin_word;
+        for (char c = 'a'; c <= 'z'; ++c) {
+            if (c == potential[i]) continue;
+            potential[i] = c;
+            
+            if (word_list.find(potential) != word_list.end())
+                result.insert(potential);
+        }
     }
+    // insert
+    for (size_t i = 0; i <= begin_word.size(); ++i) {
+        for (char c = 'a'; c <= 'z'; ++c) {
+            potential = begin_word;
+            potential.insert(potential.begin() + i, c);
+            
+            if (word_list.find(potential) != word_list.end()) {
+                result.insert(potential);
+            }
+        }
+    }
+    // delete
+    if (begin_word.size() > 1) {
+        for (size_t i = 0; i < begin_word.size(); ++i) {
+            potential = begin_word;
+            potential.erase(potential.begin() + i);
+            if (word_list.find(potential) != word_list.end()) {
+                result.insert(potential);
+            }
+        }
+    }
+    
     return result;
 }
 
@@ -62,6 +100,10 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
         error(begin_word, end_word, "starting and ending word cannot be the same.");
         return {};
     }
+    // if end word is not in word_list
+    if (word_list.find(end_word) == word_list.end())
+        return {};
+
     queue<vector<string>> ladder_queue;
     ladder_queue.push({begin_word});
     set<string> visited;
@@ -71,8 +113,9 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
         vector<string> ladder = ladder_queue.front();
         ladder_queue.pop(); // -- the ladder queue
         string last_word = ladder.back();
+
         set<string> neighbor_word_list = get_neighbor_word_list(last_word, word_list);
-        for (string word : neighbor_word_list) { // edit word_list to be neighbor_word_list
+        for (const string& word : neighbor_word_list) { // edit word_list to be neighbor_word_list
             // if (is_adjacent(last_word, word) && visited.find(word) == visited.end()) {
             if (visited.find(word) == visited.end()) {
                 visited.insert(word);
@@ -113,9 +156,9 @@ void print_word_ladder(const vector<string>& ladder) {
 void verify_word_ladder() {
     set<string> word_list;
     load_words(word_list, "src/words.txt");
-    // my_assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
-    // my_assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
-    // my_assert(generate_word_ladder("code", "data", word_list).size() == 6);
+    my_assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
+    my_assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
+    my_assert(generate_word_ladder("code", "data", word_list).size() == 6);
     // vector<string> one = generate_word_ladder("work", "play", word_list);
     // vector<string> two = generate_word_ladder("sleep", "awake", word_list);
     // vector<string> three = generate_word_ladder("car", "cheat", word_list);
@@ -124,7 +167,7 @@ void verify_word_ladder() {
     // my_assert(one.size() == 6);
     // my_assert(two.size() == 8);
     // my_assert(three.size() == 4);
-    // my_assert(generate_word_ladder("work", "play", word_list).size() == 6);
+    my_assert(generate_word_ladder("work", "play", word_list).size() == 6);
     my_assert(generate_word_ladder("sleep", "awake", word_list).size() == 8);
     my_assert(generate_word_ladder("car", "cheat", word_list).size() == 4);
 }
