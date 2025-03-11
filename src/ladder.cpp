@@ -18,7 +18,7 @@ void error(string word1, string word2, string msg) {
 
 // ensure str1 and str2 only have one char different
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
-    int num_char_diff = 0;
+    // int num_char_diff = 0;
     int diff = abs( static_cast<int>(str1.length()) - static_cast<int>(str2.length()) );
     if (diff > d) {
         // error(str1, str2, "length of two words difference is greater than 1.");
@@ -89,7 +89,7 @@ void load_words(set<string> & word_list, const string& file_name) {
 }
 
 void print_word_ladder(const vector<string>& ladder) {
-    if (!ladder) 
+    if (ladder.size() == 0) 
         cout << "No word ladder found." << endl;
     else {
         cout << "Word ladder found: ";
@@ -106,12 +106,12 @@ void verify_word_ladder() {
     // my_assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
     // my_assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
     // my_assert(generate_word_ladder("code", "data", word_list).size() == 6);
-    // vector<string> one = generate_word_ladder("work", "play", word_list);
+    vector<string> one = generate_word_ladder("work", "play", word_list);
     // vector<string> two = generate_word_ladder("sleep", "awake", word_list);
     // vector<string> three = generate_word_ladder("car", "cheat", word_list);
 
-    // print_word_ladder(two);
-    // my_assert(one.size() == 6);
+    print_word_ladder(one);
+    my_assert(one.size() == 6);
     // my_assert(two.size() == 8);
     // my_assert(three.size() == 4);
     // my_assert(generate_word_ladder("work", "play", word_list).size() == 6);
