@@ -17,4 +17,5 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
 void load_words(set<string> & word_list, const string& file_name);
 void print_word_ladder(const vector<string>& ladder);
 void verify_word_ladder();
+set<string> get_neighbor_word_list(const string& begin_word, const set<string>& word_list);
 // vector<string> get_words_from file(const string& file_name)
