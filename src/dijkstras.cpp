@@ -1,9 +1,3 @@
-// #include <iostream>
-// #include <fstream>
-// #include <vector>
-// #include <queue>
-// #include <limits>
-// #include <stack>
 #include "dijkstras.h"
 
 using namespace std;
@@ -21,7 +15,6 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
 
     // initialize as minHeap
     priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> minHeap; 
-    // minHeap.push({source, 0});
     minHeap.push({0, source});
     while (!minHeap.empty()) {
         pair<int,int> top = minHeap.top();
