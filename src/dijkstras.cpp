@@ -11,29 +11,48 @@ using namespace std;
 vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& previous) {
     int num = G.numVertices;
     vector<int> distances(num, INF);
-    vector<bool> visited(num, false);
+    
     distances[source] = 0;
-    previous[source] = -1;
+    previous.assign(num, -1);
+
+    // vector<bool> visited(num, false);
+    // distances[source] = 0;
+    // previous[source] = -1;
+
     // initialize as minHeap
     priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> minHeap; 
-    minHeap.push({source, 0});
-
+    // minHeap.push({source, 0});
+    minHeap.push({0, source});
     while (!minHeap.empty()) {
-        int src = minHeap.top().first;
+        auto[dst, src] = minHeap.top();
         minHeap.pop();
-        if (visited[src]) continue;
-        visited[src] = true;
+        if (dst > distances[src]) continue;
         for (const Edge & edge : G[src]) {
-            // int this_src = edge.src;
             int dst = edge.dst;
             int weight = edge.weight;
-            if (!visited[dst] && distances[src] + weight < distances[dst]) {
+            if (distances[src] + weight < distances[dst]) {
                 distances[dst] = distances[src] + weight;
                 previous[dst] = src;
-                minHeap.push({dst, distances[dst]});
+                minHeap.push({distances[dst], dst});
             }
         }
     }
+    // while (!minHeap.empty()) {
+    //     int src = minHeap.top().first;
+    //     minHeap.pop();
+    //     if (visited[src]) continue;
+    //     visited[src] = true;
+    //     for (const Edge & edge : G[src]) {
+    //         // int this_src = edge.src;
+    //         int dst = edge.dst;
+    //         int weight = edge.weight;
+    //         if (!visited[dst] && distances[src] + weight < distances[dst]) {
+    //             distances[dst] = distances[src] + weight;
+    //             previous[dst] = src;
+    //             minHeap.push({dst, distances[dst]});
+    //         }
+    //     }
+    // }
     return distances;
 }
 
